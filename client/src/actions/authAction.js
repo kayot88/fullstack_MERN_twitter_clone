@@ -1,5 +1,24 @@
 import axios from 'axios';
 import { GET_ERRORS } from '../constants';
+import { SET_CURRENT_USER } from '../constants';
+import setAuthHeader from '../utils/setAuthHeader';
+
+export const loginUser = userData => dispatch => {
+  axios
+    .post('http://localhost:4000/api/users/login', userData)
+    .then(res => {
+      const { token } = res.data;
+      localStorage.setItem('jwtToken', token);
+      setAuthHeader(token);
+      dispatch(getCurrentUser());
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
 
 export const registerUser = (userData, history) => dispatch => {
   axios
@@ -8,11 +27,28 @@ export const registerUser = (userData, history) => dispatch => {
       history.push('/login');
     })
     .catch(err => {
-      console.log(err.response.data);
-      // dispatch({
-      //   type: GET_ERRORS,
-      //   payload: err.data
-      // })
+      return dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 
+export const getCurrentUser = () => dispatch => {
+  axios
+    .get('http://localhost:4000/api/users')
+    .then(res => dispatch(setCurentUser(res.data)));
+};
+
+export const setCurentUser = data => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: data
+  };
+};
+
+export const logoutUser = () => dispatch => {
+  localStorage.removeItem('jwtToken');
+  setAuthHeader();
+  dispatch(setCurentUser());
+};

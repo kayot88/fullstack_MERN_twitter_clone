@@ -24,12 +24,19 @@ class Register extends Component {
       email: '',
       login: '',
       password: '',
-      password2: ''
+      password2: '',
+      errors: {}
     };
     this.handlerChange = this.handlerChange.bind(this);
     this.handlerSubmit = this.handlerSubmit.bind(this);
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
   handlerChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -47,6 +54,7 @@ class Register extends Component {
 
   render() {
     const { classes } = this.props;
+    const { errors } = this.state;
     return (
       <Paper style={{ padding: 15 }}>
         <form onSubmit={this.handlerSubmit}>
@@ -57,6 +65,8 @@ class Register extends Component {
             value={this.state.email}
             onChange={this.handlerChange}
             className={classes.textField}
+            helperText={errors.email ? errors.email : ''}
+            error={errors.email ? true : false}
           />
           <TextField
             label="Login"
@@ -66,6 +76,8 @@ class Register extends Component {
             type="text"
             onChange={this.handlerChange}
             className={classes.textField}
+            helperText={errors.login ? errors.login : ''}
+            error={errors.login ? true : false}
           />
           <TextField
             label="Password"
@@ -74,6 +86,8 @@ class Register extends Component {
             type="password"
             onChange={this.handlerChange}
             className={classes.textField}
+            helperText={errors.password ? errors.password : ''}
+            error={errors.password ? true : false}
           />
           <TextField
             label="Repeat password"
@@ -82,9 +96,15 @@ class Register extends Component {
             type="password"
             onChange={this.handlerChange}
             className={classes.textField}
+            helperText={errors.password2 ? errors.password2 : ''}
+            error={errors.password2 ? true : false}
           />
           <div className={classes.btnBlock}>
-            <Button variant="outlined" style={{ marginTop: 8 }} type="submit">
+            <Button
+              variant="outlined"
+              style={{ marginTop: 8 }}
+              type="submit"
+            >
               Submit
             </Button>
           </div>
@@ -101,5 +121,3 @@ export default connect(
   mapStateToProps,
   { registerUser }
 )(withRouter(withStyles(styles)(Register)));
-
-
