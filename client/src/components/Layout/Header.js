@@ -117,7 +117,11 @@ class Header extends Component {
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-          <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+          <MenuItem>
+            <Link to="/#" onClick={this.handleLogout}>
+              Logout
+            </Link>
+          </MenuItem>
         </Menu>
       </div>
     );
