@@ -3,6 +3,8 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import {connect} from 'react-redux';
+import {addPost} from '../../actions/postAction';
 
 const styles = {
   paper: {
@@ -46,7 +48,8 @@ class AddPost extends Component {
     const postData = {
       text: this.state.text
     }
-    console.log(postData);
+    // console.log(this.props);
+    this.props.addPost(postData)
     this.setState({
       text: ''
     })
@@ -76,4 +79,7 @@ class AddPost extends Component {
   }
 }
 
-export default withStyles(styles)(AddPost);
+export default connect(
+  null,
+  { addPost }
+)(withStyles(styles)(AddPost));

@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const users = require('./routes/users');
 const cors = require('cors');
 const passport = require('passport');
+
+const users = require('./routes/users');
+const post = require('./routes/posts');
+
 //setup inv
 require('dotenv').config({ path: '.env' });
 
@@ -16,6 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
 app.use('/api/users', users);
+app.use('/api/posts', post);
 app.use(passport.initialize());
 require('./config/passport')(passport);
 
