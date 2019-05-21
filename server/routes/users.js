@@ -73,16 +73,38 @@ router.route('/login').post((req, res) => {
     });
 });
 
-router.route('/').get(passport.authenticate('jwt', {session: false}), (req, res) => {
-  console.log('Here');
-  // console.log(req.user);
-  res.json({
-    _id: req.user._id,
-    email: req.user.email,
-    login: req.user.login,
-    followers: req.user.followers,
-    following: req.user.following
-  })
-})
+router
+  .route('/')
+  .get(passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('Here');
+    // console.log(req.user);
+    res.json({
+      _id: req.user._id,
+      email: req.user.email,
+      login: req.user.login,
+      followers: req.user.followers,
+      following: req.user.following
+    });
+  });
+
+router.route('/:id').get((req, res) => {
+  User.findById(req.params.id)
+    .then(user => {
+      if (user) {
+        res.json({
+          _id: user._id,
+          login: user.login,
+          email: user.email,
+          followers: user.followers,
+          following: user.following
+        });
+      } else {
+        return res.status(404).json({ msg: `User not found` });
+      }
+    })
+    .catch(err => {
+      return console.log(err);
+    });
+});
 
 module.exports = router;

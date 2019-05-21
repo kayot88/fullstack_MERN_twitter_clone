@@ -16,7 +16,7 @@ export const addPost = postData => dispatch => {
 };
 
 export const getPosts = () => dispatch => {
-  dispatch(loadPosts);
+  dispatch(loadPosts());
   axios
     .get('http://localhost:4000/api/posts')
     .then(res =>

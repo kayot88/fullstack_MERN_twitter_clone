@@ -8,7 +8,7 @@ import Loading from './Loading';
 
 const styles = {
   load: {
-    padding: 0
+    padding:0
   }
 };
 
@@ -19,7 +19,6 @@ class PostList extends Component {
   render() {
     const { loading, list, classes } = this.props;
     console.log(this.props);
-    // console.log(this.state)
     const items =
     list &&
     list.map(el => {
@@ -29,7 +28,6 @@ class PostList extends Component {
       <div>
         <AddPost />
         {loading ? <Loading className={classes.load} /> : items}
-        <Post />
       </div>
     );
   }
