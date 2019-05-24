@@ -37,7 +37,7 @@ class Post extends Component {
               {new Date(post.createdAt).toLocaleString()}
             </span>
           </h3>
-          {console.log(post)}
+          {/* {console.log(post)} */}
           {post.post}
         </div>
       </Paper>

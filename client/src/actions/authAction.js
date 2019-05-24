@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { GET_ERRORS } from '../constants';
-import { SET_CURRENT_USER } from '../constants';
+import { SET_CURRENT_USER, GET_ERRORS } from '../constants';
 import setAuthHeader from '../utils/setAuthHeader';
+
 
 export const loginUser = userData => dispatch => {
   axios

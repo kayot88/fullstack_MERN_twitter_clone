@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authAction';
+import Search from '../Search/Search';
 
 const styles = {
   root: {
@@ -45,7 +46,7 @@ class Header extends Component {
     this.setState({ auth: event.target.checked });
   };
   handleMenu = event => {
-    console.log(this.props);
+    // console.log(this.props);
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -54,7 +55,7 @@ class Header extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, isAuthenticated, user } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -92,7 +93,7 @@ class Header extends Component {
       </div>
     );
 
-    const authLinks = (
+    const authLinks = isAuthenticated && (
       <div>
         <IconButton
           aria-owns={open ? 'menu-appbar' : undefined}
@@ -116,7 +117,9 @@ class Header extends Component {
           }}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+          <MenuItem onClick={this.handleClose}>
+            <Link to={`/profile/${user._id}`}>Profile</Link>
+          </MenuItem>
           <MenuItem>
             <Link to="/#" onClick={this.handleLogout}>
               Logout
@@ -132,6 +135,7 @@ class Header extends Component {
             <Link to="/" className={classes.logo}>
               Twitter
             </Link>
+            <Search />
             {this.props.isAuthenticated ? authLinks : logoutLinks}
           </Toolbar>
         </AppBar>
@@ -140,7 +144,8 @@ class Header extends Component {
   }
 }
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
 export default connect(
