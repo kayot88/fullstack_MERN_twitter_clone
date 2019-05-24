@@ -88,6 +88,19 @@ router
     });
   });
 
+router
+  .route('/search')
+  .post((req, res) => {
+    User.findOne({
+      $or: [{ email: req.body.text }, { login: req.body.text }]
+    })
+      .then(user => res.json({ userId: user._id }))
+      .catch(err => {
+        return res.status(404).json({msg: 'User not found'});
+      });
+  })
+  
+
 router.route('/:id').get((req, res) => {
   User.findById(req.params.id)
     .then(user => {

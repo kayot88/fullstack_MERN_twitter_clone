@@ -3,7 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
+import { searchUser } from '../../actions/profileAction';
 const styles = theme => ({
   search: {
     position: 'relative',
@@ -46,6 +49,21 @@ const styles = theme => ({
   }
 });
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(e) {
+    const searchData = {
+      text: e.target.value
+    };
+
+    if (e.key === 'Enter') {
+      this.props.searchUser(searchData, this.props.history);
+      console.log(searchData);
+      console.log(this.props.history);
+    }
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -59,10 +77,14 @@ class Search extends Component {
             root: classes.inputRoot,
             input: classes.inputInput
           }}
+          onKeyPress={this.handleSubmit}
         />
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Search);
+export default connect(
+  null,
+  { searchUser }
+)(withRouter(withStyles(styles)(Search)));

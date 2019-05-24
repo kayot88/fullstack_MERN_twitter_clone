@@ -8,6 +8,15 @@ import {
   UNFOLLOW
 } from '../constants';
 
+export const searchUser = (searchData, history) => dispatch => {
+  axios
+    .post('http://localhost:4000/api/users/search', searchData)
+    .then(res => {
+      history.push(`/profile/${res.data.userId}`);
+    })
+    .catch(err => history.push('/search'));
+};
+
 export const refreshUserProfile = userId => dispatch => {
   dispatch(loadingProfile());
   axios

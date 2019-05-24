@@ -11,7 +11,8 @@ import Login from './components/Auth/Login';
 import NotFound from './components/NotFound';
 import { logoutUser, getCurrentUser } from './actions/authAction';
 import setAuthHeader from './utils/setAuthHeader';
-console.log(store);
+import Search from './components/Search/NotFound';
+// console.log(store);
 
 if (localStorage.getItem('jwtToken')) {
   const nowTime = Date.now() / 1000;
@@ -36,6 +37,7 @@ class App extends Component {
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/profile/:userId" component={Profile} />
+                <Route path="/search" component={Search} />
                 <Route component={NotFound} />
               </Switch>
             </Main>
