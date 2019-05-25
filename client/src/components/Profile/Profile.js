@@ -10,7 +10,6 @@ import {
   unfollowUser,
   refreshUserProfile
 } from '../../actions/profileAction';
-// import { followUser, unfollowUser } from '../../actions/authAction';
 import Post from '../Posts/Post';
 import Loading from '../Posts/Loading';
 
@@ -58,24 +57,12 @@ class Profile extends Component {
     this.handleFollow = this.handleFollow.bind(this);
     this.handleUnFollow = this.handleUnFollow.bind(this);
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.profile) {
-  //     this.setState({
-  //       profile: nextProps.profile
-  //     });
-  //   }
-  // }
   componentDidMount() {
     this.props.getUserProfile(this.props.match.params.userId);
     this.props.getPostsByUserId(this.props.match.params.userId);
   }
-  // componentWillMount() {
-  //   this.props.getUserProfile(this.props.match.params.userId);
-  //   this.props.getPostsByUserId(this.props.match.params.userId);
-  // }
   componentDidUpdate(prevProps) {
     if (this.props.auth.isAuthenticated) {
-      // this.props.refreshUserProfile(this.props.match.params.userId);
       if (
         prevProps.user &&
         prevProps.user.following !== this.props.user.following
@@ -86,9 +73,11 @@ class Profile extends Component {
   }
   handleFollow() {
     this.props.followUser(this.props.match.params.userId);
+    console.log(this.props.match.params.userId);
   }
   handleUnFollow() {
     this.props.unfollowUser(this.props.match.params.userId);
+    console.log(this.props.match.params.userId);
   }
 
   render() {
@@ -102,20 +91,19 @@ class Profile extends Component {
       user
     } = this.props;
     console.log(user);
+    // console.log(this.state);
     let items;
     items = list && list.map(el => <Post key={el._id} post={el} />);
 
     let profileInfo;
-
     let followBtn;
+
     if (auth.isAuthenticated) {
       if (
         user &&
         user.following &&
         user.following.indexOf(this.props.match.params.userId) === -1
       ) {
-        console.log(this.props.auth.user._id);
-        // console.log(profile.user);
         followBtn = (
           <div className={classes.btnBlock}>
             <Button

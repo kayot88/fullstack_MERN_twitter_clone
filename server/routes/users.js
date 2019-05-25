@@ -139,7 +139,7 @@ router
         },
         { new: true }
       )
-        .then(user => res.json({ userIdd: req.body.userId }))
+        .then(user => res.json({ userId: req.body.userId }))
         .catch(err => {
           console.log(err);
         });
@@ -165,7 +165,7 @@ router
         },
         { new: true }
       )
-        .then(user => res.json({ userIdd: req.body.userId }))
+        .then(user => res.json({ userId: req.body.userId }))
         .catch(err => {
           console.log(err);
         });
